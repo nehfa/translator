@@ -10,10 +10,16 @@ const TextBox = ({
   setTranslatedText,
   setSource,
   setTarget,
+  translateDebounce,
 }) => {
   const handleClick = () => {
     setTranslatedText('');
     setTextToTranslate('');
+  };
+
+  const onChangeText = async (e) => {
+    setTextToTranslate(e);
+    translateDebounce(e);
   };
 
   return (
@@ -28,12 +34,12 @@ const TextBox = ({
       <textarea
         placeholder={style === 'input' ? 'Enter the text' : 'Translation'}
         disabled={style === 'output'}
-        onChange={(e) => setTextToTranslate(e.target.value)}
+        onChange={(e) => onChangeText(e.target.value)}
         value={style === 'input' ? textToTranslate : translatedText}
       />
       {style === 'input' && (
         <div className="delete" onClick={handleClick}>
-          🗙
+          🐈
         </div>
       )}
     </div>

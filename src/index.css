@@ -53,6 +53,30 @@ textarea{
   margin-top: 10px;
 }
 
+.mean-contant{
+  position: absolute;
+  background-color: transparent;
+  color: #bdc1c6;
+  border: solid rgba(63, 65, 84, 0.5) 1px;
+  resize: none;
+  padding: 18px;
+  height: 146px;
+  border-radius: 10px;
+  outline: none;
+  overflow: auto;
+  font-size: 28px;
+  margin-top: 10px;
+  width: 600px;
+  margin-left: 6px;
+  height: 200px;
+  bottom: 90px;
+}
+
+.mean-contant:hover{
+  border: solid rgba(63, 65, 84, 0.1) 1px;
+}
+
+
 
 .output textarea{
   background-color: #303134;
@@ -63,6 +87,7 @@ textarea{
   color:#8ab4f8 ;
 padding: 5px 15px;
 font-size: 15px;
+cursor: pointer;
 }
 
 .select-drop-down .down-arrow svg{
@@ -77,6 +102,8 @@ fill: #8ab4f8;
 
 .arrow-container{
   padding: 15px;
+  cursor: pointer;
+  margin-bottom: 300px;
 }
 
 .arrow-container svg{
@@ -169,4 +196,26 @@ fill: #8ab4f8;
   top: -156px;
   font-size: 20px;
   color: #bdc1c6;
+  cursor: pointer;
+  margin-right: 500px;
+  user-select: none;
+}
+
+.dictonary{
+  position: absolute;
+  bottom:320px;
+  left: 640px;
+  color: #8ab4f8;
+  font-size: 20px;
+}
+
+.answer{
+  margin-top: 30px;
+  text-align: center;
+}
+
+.input_slave{
+  text-align: center;
+  color: #bdc1c6;
+  font-size: 20px;
 }

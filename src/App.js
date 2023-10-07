@@ -1,9 +1,11 @@
 import TextBox from './components/TextBox';
 import Arrows from './components/Arrows';
-import Button from './components/Button';
 import Modal from './components/Modal';
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import axios from 'axios';
+import debounce from 'lodash.debounce';
+import { Meaning } from './components/Meaning';
+import slaves from './slaves.txt'; //import txt
 
 function App() {
   const [showModal, setShowModal] = React.useState(null);
@@ -15,6 +17,10 @@ function App() {
   const [lang, setLang] = React.useState(null);
   const [textToTranslate, setTextToTranslate] = React.useState('');
   const [translatedText, setTranslatedText] = React.useState('');
+  //Search
+  const [answer, setAnswer] = React.useState([]);
+  const [input, setInput] = React.useState('');
+  //
 
   const getLanguages = async () => {
     const options = {
@@ -45,7 +51,16 @@ function App() {
     }
   };
 
-  const translate = async () => {
+  const translateDebounce = useCallback(
+    debounce((e) => {
+      console.log('translateDebounce');
+      translate(e);
+      setTextToTranslate(e);
+    }, 350),
+    [source, target],
+  );
+
+  const translate = async (e) => {
     const options = {
       method: 'POST',
       url: 'https://deep-translate1.p.rapidapi.com/language/translate/v2',
@@ -55,7 +70,7 @@ function App() {
         'X-RapidAPI-Host': 'deep-translate1.p.rapidapi.com',
       },
       data: {
-        q: textToTranslate,
+        q: e,
         source: source,
         target: target,
       },
@@ -72,10 +87,16 @@ function App() {
     console.log(source, target);
   };
 
-  console.log(translatedText);
+  console.log(textToTranslate);
 
   useEffect(() => {
     getLanguages();
+    fetch(slaves)
+      .then((r) => r.text())
+      .then((text) => {
+        console.log('text decoded:', text);
+        setAnswer(text.split('\r' + '\n'));
+      });
   }, []);
 
   const handleClick = () => {
@@ -98,6 +119,7 @@ function App() {
             textToTranslate={textToTranslate}
             setSource={setSource}
             setTarget={setTarget}
+            translateDebounce={translateDebounce}
           />
           <div className="arrow-container" onClick={handleClick}>
             <Arrows />
@@ -109,9 +131,9 @@ function App() {
             setShowModal={setShowModal}
             translatedText={translatedText}
           />
-          <div className="button-container" onClick={translate}>
-            <Button />
-          </div>
+
+          <h3 className="dictonary">Dictionary</h3>
+          <Meaning answer={answer} input={input} setInput={setInput} />
         </>
       )}
 
