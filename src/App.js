@@ -19,6 +19,7 @@ function App() {
   const [translatedText, setTranslatedText] = React.useState('');
   //Search
   const [answer, setAnswer] = React.useState([]);
+  const [massive, setMassive] = React.useState([]);
   const [input, setInput] = React.useState('');
   //
 
@@ -133,7 +134,14 @@ function App() {
           />
 
           <h3 className="dictonary">Dictionary</h3>
-          <Meaning answer={answer} input={input} setInput={setInput} />
+          <Meaning
+            answer={answer}
+            input={input}
+            setInput={setInput}
+            massive={massive}
+            setMassive={setMassive}
+            textToTranslate={textToTranslate}
+          />
         </>
       )}
 
