@@ -10,7 +10,12 @@ body{
   justify-content: center;
   height: 100vh;
   align-items: center;
+
+  scrollbar-color: blue orange;
+  scrollbar-width: thin;
 }
+
+
 
 
 .app{
@@ -214,6 +219,14 @@ fill: #8ab4f8;
   text-align: center;
 }
 
+.answer::-webkit-scrollbar{
+  width: 15px;
+}
+
+.answer::-webkit-scrollbar-track{
+  background-color: blue;
+}
+
 .input_slave{
   text-align: center;
   color: #bdc1c6;
@@ -222,4 +235,73 @@ fill: #8ab4f8;
 
 .small{
   margin: 10px;
+}
+
+
+.modal{
+  height: 100vh;
+  width: 100vh;
+  background-color: (0,0,0,0.5);
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
+  background-color: rgba(0, 0, 0, 0.5);
+  margin: 0rem;
+  overflow: hidden;
+  
+}
+
+@keyframes ani {
+  
+  0% {opacity: 0;
+    transform: perspective(17px);}
+  100% {opacity: 1; }
+}
+
+@keyframes ani2 {
+  
+  0% {opacity: 0;}
+  100% {opacity: 1;}
+}
+
+
+.image-track {
+  display: flex;
+  gap: 4vmin;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(0%, -50%); 
+  user-select: none; /* -- Prevent image highlighting -- */
+  cursor: grab;
+  z-index: 1;
+  animation: ani 2.5s forwards;
+}
+
+.image-track > .image {
+  width: 40vmin;
+  height: 56vmin;
+  object-fit: cover;
+  object-position: 100% center;
+}
+
+.close-modal{
+  font-size: 30px;
+  color: rgba(255, 255, 255, 1);
+  position: absolute;
+  top: 0;
+  left: 0;
+  cursor: pointer;
+  animation: ani2 2.5s forwards;
+  user-select: none;
+  padding: 30px;
+}
+
+.close-modal:hover{
+  color: rgba(255, 255, 255, 0.4);
 }

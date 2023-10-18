@@ -6,6 +6,7 @@ import axios from 'axios';
 import debounce from 'lodash.debounce';
 import { Meaning } from './components/Meaning';
 import slaves from './slaves.txt'; //import txt
+import { ModalWindow } from './components/ModalWindow';
 
 function App() {
   const [showModal, setShowModal] = React.useState(null);
@@ -21,8 +22,34 @@ function App() {
   const [answer, setAnswer] = React.useState([]);
   const [massive, setMassive] = React.useState([]);
   const [input, setInput] = React.useState('');
-  //
 
+  const findAnswer = useCallback(
+    debounce((answer, input, massive, setMassive) => {
+      setMassive(
+        answer.filter((item) => {
+          return item.includes(input);
+        }),
+      );
+    }, 1000),
+    [input],
+  );
+
+  const changeInput = useCallback(
+    debounce((e, setInput) => {
+      setInput(e);
+      console.log(input);
+    }, 500),
+  );
+
+  useEffect(() => {
+    if (input) {
+      findAnswer(answer, input, massive, setMassive);
+    } else {
+      console.log('Empty!');
+    }
+  }, [input]);
+
+  //Получить все языки
   const getLanguages = async () => {
     const options = {
       method: 'GET',
@@ -52,15 +79,19 @@ function App() {
     }
   };
 
+  //Вызвать функцию перевода
   const translateDebounce = useCallback(
     debounce((e) => {
       console.log('translateDebounce');
       translate(e);
+      setInput(e);
       setTextToTranslate(e);
+      console.log('input', input);
     }, 350),
     [source, target],
   );
 
+  //Функция перевода
   const translate = async (e) => {
     const options = {
       method: 'POST',
@@ -90,6 +121,7 @@ function App() {
 
   console.log(textToTranslate);
 
+  //Подгрузка языков и данных из txt
   useEffect(() => {
     getLanguages();
     fetch(slaves)
@@ -107,8 +139,20 @@ function App() {
     setTarget(source);
   };
 
+  //Костыли
+  window.onmousemove = () => {};
+  window.onmousedown = () => {};
+  window.onmouseup = () => {};
+
   return (
     <div className="app">
+      {textToTranslate === 'catcollection' && (
+        <ModalWindow
+          setTextToTranslate={setTextToTranslate}
+          setTranslatedText={setTranslatedText}
+          setShowModal={setShowModal}
+        />
+      )}
       {!showModal && (
         <>
           <TextBox
@@ -131,9 +175,10 @@ function App() {
             selectedLanguage={outputLanguage}
             setShowModal={setShowModal}
             translatedText={translatedText}
+            input={input}
+            setInput={setInput}
           />
 
-          <h3 className="dictonary">Dictionary</h3>
           <Meaning
             answer={answer}
             input={input}

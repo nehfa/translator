@@ -6,10 +6,6 @@ const Modal = ({
   chosenLanguage,
   setChosenLanguage,
   lang,
-  setSource,
-  setTarget,
-  inputLanguage,
-  outputLanguage,
   setSourceTarget,
 }) => {
   const [searchedLanguage, setSearchedLanguage] = React.useState('');
@@ -31,6 +27,11 @@ const Modal = ({
     setSourceTarget(filteredLanguages2[_index]);
     setShowModal(null);
   };
+
+  //Костыли
+  window.onmousemove = () => {};
+  window.onmousedown = () => {};
+  window.onmouseup = () => {};
 
   return (
     <div className="option-list">
